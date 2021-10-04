@@ -11,13 +11,13 @@ public class Car : MonoBehaviour
     public Vector3 pos; 
     public int delta;
 
-    private Rigidbody rb; 
+    [SerializeField] private Rigidbody rb; 
 
     private void Start()
     {
         velo = isRight ? new Vector3(0,0,1) : new Vector3(0,0, -1);
         transform.rotation = Quaternion.Euler(0, isRight ? 0 : 180, 0);
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
 
 
@@ -36,8 +36,6 @@ public class Car : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player"))
-        {
-            Debug.Log("GameOver");
-        }
+            GameManager.Instance.setGameOver(true);
     }
 }

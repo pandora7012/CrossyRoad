@@ -5,5 +5,6 @@ using UnityEngine;
 public static class Observer 
 {
     public delegate void GameEvent();
-    public static GameEvent Forward; 
+    public static GameEvent Forward;
+    public static GameEvent GameOver;
 }

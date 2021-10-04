@@ -21,7 +21,7 @@ public class Water : MonoBehaviour
         pos.y = 0;
         pos.z = isRight ? -5 : 15;
 
-        float speed = Random.Range(3, 6);
+        float speed = 2;
         // instance log 
         for (int i = 0; i < 5; i++)
         {
@@ -45,7 +45,7 @@ public class Water : MonoBehaviour
         foreach (Log i in LogPolling)
         {
             i.gameObject.SetActive(true);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(Random.Range(3,4f));
         }
     }
 

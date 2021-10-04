@@ -9,12 +9,11 @@ public class Log : MonoBehaviour
     public Vector3 pos;
     public float speed; 
 
-    private Rigidbody rb; 
+    public Rigidbody rb; 
     void Start()
     {
         velo = isRight ? new Vector3(0,0,1) : new Vector3(0, 0, -1);
-        rb = GetComponent<Rigidbody>();
-       
+       // rb = GetComponent<Rigidbody>();
     }
 
     void Update()

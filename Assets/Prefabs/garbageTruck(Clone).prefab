@@ -304,6 +304,7 @@ MonoBehaviour:
   speed: 0
   pos: {x: 0, y: 0, z: 0}
   delta: 0
+  rb: {fileID: 4835820926298187274}
 --- !u!65 &5892020388908308964
 BoxCollider:
   m_ObjectHideFlags: 0

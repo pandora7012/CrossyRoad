@@ -26,7 +26,7 @@ public class Road : MonoBehaviour
         pos = this.transform.position;
         pos.y = 0.45f;
         pos.z = isRight ? -5 : 15;
-        speed = Random.Range(2, 6);
+        speed = Random.Range(2, 4);
 
         for (int i = 0; i < value / speed; i++)
         {

@@ -15,13 +15,14 @@ public class Player : MonoBehaviour
 
     [SerializeField]private Rigidbody rb;
 
-    private void Start()
-    {
-        rb = this.GetComponent<Rigidbody>();
-    }
     void Update()
     {
-        inputHandle();
+        if (!GameManager.Instance.GameOver)
+        {
+            inputHandle();
+            checkGameOver();
+        }
+        
     }
 
     private void FixedUpdate()
@@ -68,24 +69,29 @@ public class Player : MonoBehaviour
                 goLeft();
             else
                 goBack();
+            
         }
+        
     }
 
     private void goForward()
     {
         bool[] vs = GameManager.Instance.map[pos + 1];
+        Vector3 temp = RoundVector(this.transform.position);
+
         // check if front have obticle 
-        if ( vs[(int) transform.position.z] )
+        if ( vs[ (int) temp.z] )
         {
-            rb.DOJump(transform.position, 0.5f, 1, 0.3f).OnComplete(() =>
+            rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
                 isJumping = false;
             });
             return;
-            
         }
-        Vector3 temp = this.transform.position + new Vector3(1, 0, 0);
-        rb.DOJump(temp, 1f, 1, 0.3f).OnComplete(() =>
+
+        //jump 
+        temp += new Vector3(1, 0, 0);
+        rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
             isJumping = false;
             if (pos == 5)
@@ -94,8 +100,6 @@ public class Player : MonoBehaviour
                 GameManager.Instance.RemoveMap();
             }
             pos = Mathf.Min(pos + 1, 5);
-            
-            
         });
         
     }
@@ -103,18 +107,22 @@ public class Player : MonoBehaviour
     private void goLeft()
     {
         bool[] vs = GameManager.Instance.map[pos];
-        // check if left have obticle 
-        if (this.transform.position.z == 8 || vs[(int) transform.position.z+1])
+        Vector3 temp = RoundVector(this.transform.position);
+
+        // check if  have obticle 
+        if (temp.z == 8 || vs[(int) temp.z+1])
         {
-            rb.DOJump(transform.position, 0.5f, 1, 0.3f).OnComplete(() =>
+            rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
                 isJumping = false;
 
             });
             return;
         }
-        Vector3 temp = this.transform.position + new Vector3(0, 0, 1);
-        rb.DOJump(temp, 1f, 1, 0.3f).OnComplete(() =>
+
+        // jump 
+        temp += new Vector3(0, 0, 1);
+        rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
             isJumping = false;
             transform.rotation = Quaternion.identity;
@@ -125,16 +133,21 @@ public class Player : MonoBehaviour
     private void goRight()
     {
         bool[] vs = GameManager.Instance.map[pos];
-        if (this.transform.position.z == 0 || vs [ (int) transform.position.z -1 ])
+        Vector3 temp = RoundVector(this.transform.position);
+
+        // check if have obticle 
+        if (temp.z == 0 || vs [ (int) temp.z -1 ])
         {
-            rb.DOJump(transform.position, 0.5f, 1, 0.3f).OnComplete(() =>
+            rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
                 isJumping = false;
             });
             return;
         }
-        Vector3 temp = this.transform.position - new Vector3(0, 0, 1);
-        rb.DOJump(temp, 1f, 1, 0.3f).OnComplete(() =>
+
+        //jump 
+        temp -= new Vector3(0, 0, 1);
+        rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
             isJumping = false;
             transform.rotation = Quaternion.identity;
@@ -145,16 +158,21 @@ public class Player : MonoBehaviour
     private void goBack()
     {
         bool[] vs = GameManager.Instance.map[pos-1];
-        if (this.transform.position.z == 0 || vs[(int)transform.position.z])
+        Vector3 temp = RoundVector(this.transform.position);
+
+        //check obticle 
+        if (this.transform.position.z == 0 || vs[(int)temp.z])
         {
-            rb.DOJump(transform.position, 0.5f, 1, 0.3f).OnComplete(() =>
+            rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
                 isJumping = false;
             });
             return;
         }
-        Vector3 temp = this.transform.position - new Vector3(1, 0, 0);
-        rb.DOJump(temp, 1f, 1, 0.3f).OnComplete(() =>
+
+        temp -= new Vector3(1, 0);
+        // jump 
+        rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
             isJumping = false;
             transform.rotation = Quaternion.identity;
@@ -162,9 +180,19 @@ public class Player : MonoBehaviour
         });
     }
 
-    private void resetPos()
+    
+
+    private void checkGameOver()
     {
-        touchDown = Vector3.zero;
-        touchUp = Vector3.zero;
+        if (!(transform.position.z <= 8 && transform.position.z >= 0) || transform.position.y < 0)
+            GameManager.Instance.setGameOver(true);
+    }
+
+    private Vector3 RoundVector(Vector3 temp)
+    {
+        temp.z = Mathf.Round(temp.z);
+        temp.x = Mathf.Round(temp.x);
+        temp.y = 0.8f;
+        return temp; 
     }
 }
