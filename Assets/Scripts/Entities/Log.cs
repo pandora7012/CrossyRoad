@@ -13,7 +13,6 @@ public class Log : MonoBehaviour
     void Start()
     {
         velo = isRight ? new Vector3(0,0,1) : new Vector3(0, 0, -1);
-       // rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -37,12 +36,4 @@ public class Log : MonoBehaviour
         }
     }
 
-    /*private void OnCollisionExit(Collision collision)
-    {
-        if (collision.collider.CompareTag("Player"))
-        {
-            collision.transform.parent = null;
-            Debug.Log("aaa");
-        }
-    }*/
 }

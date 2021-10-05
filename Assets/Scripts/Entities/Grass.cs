@@ -10,7 +10,7 @@ public class Grass : MonoBehaviour
 
     private bool[] vs = new bool[9];
 
-    private void Start()
+    private void Awake()
     {
         thisPos = transform.position;
 
@@ -19,6 +19,8 @@ public class Grass : MonoBehaviour
         obticle.transform.parent = this.transform;
         obticle = Instantiate(pref[Random.Range(0, 3)], new Vector3(thisPos.x, 0.5f, 9), Quaternion.identity);
         obticle.transform.parent = this.transform;
+
+
 
         // init things on playground
         for (int i = 0; i <= 8; i++)

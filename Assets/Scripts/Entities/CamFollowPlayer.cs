@@ -36,4 +36,10 @@ public class CamFollowPlayer : MonoBehaviour
         if (targetPos.x - 3.5 > player.transform.position.x)
             GameManager.Instance.setGameOver(true);
     }
+
+    public void Clear()
+    {
+        targetPos = new Vector3(-1, 3.5f, 4);
+        this.transform.position = targetPos; 
+    }
 }

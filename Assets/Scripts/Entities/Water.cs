@@ -8,7 +8,7 @@ public class Water : MonoBehaviour
     [SerializeField] private GameObject LogPrefab;
     [SerializeField] private Vector3 pos;
     [SerializeField] private bool isRight;
-    void Start()
+    void Awake()
     {
         // add empty array to map
         bool[] vp = new bool[9];
@@ -34,9 +34,7 @@ public class Water : MonoBehaviour
             lg.speed = speed;
 
         }
-
         StartCoroutine("setLogActive");
-
     }
 
 

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening; 
+using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -14,6 +15,16 @@ public class Player : MonoBehaviour
     [SerializeField]private int pos = 5; 
 
     [SerializeField]private Rigidbody rb;
+
+    public void Clear()
+    {
+        touchDown = Vector2.zero;
+        touchUp = Vector2.zero;
+        drs = Vector2.zero;
+        angle = 0; isJumping = false;
+        rb.position = (new Vector3(-1, 0.8f, 4));
+        transform.position = new Vector3(-1, 0.8f, 4);
+    }
 
     void Update()
     {
@@ -34,10 +45,10 @@ public class Player : MonoBehaviour
     private void inputHandle()
     {
         
-        if (isJumping)
+        if (isJumping || EventSystem.current.IsPointerOverGameObject(0))
             return;
         // get pos touchdown 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) ) 
             touchDown = Input.mousePosition;
 
         // get pos touch up and handle
@@ -97,6 +108,8 @@ public class Player : MonoBehaviour
             if (pos == 5)
             {
                 Observer.Forward?.Invoke();
+                UIManager.Instance.score++;
+                UIManager.Instance.UpdateUI();
                 GameManager.Instance.RemoveMap();
             }
             pos = Mathf.Min(pos + 1, 5);
@@ -184,8 +197,12 @@ public class Player : MonoBehaviour
 
     private void checkGameOver()
     {
-        if (!(transform.position.z <= 8 && transform.position.z >= 0) || transform.position.y < 0)
+        if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0)
+        {
             GameManager.Instance.setGameOver(true);
+            Debug.Log("OutBound");
+        }
+            
     }
 
     private Vector3 RoundVector(Vector3 temp)

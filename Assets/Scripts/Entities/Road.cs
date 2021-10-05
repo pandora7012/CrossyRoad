@@ -13,9 +13,8 @@ public class Road : MonoBehaviour
 
     private List<Car> carPolling = new List<Car>();
 
-    void Start()
+    void Awake()
     {
-        
         // add empty array to map
         bool[] vp = new bool[9];
         GameManager.Instance.map.Add(vp);

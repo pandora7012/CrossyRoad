@@ -13,16 +13,15 @@ public class TerrainGenerator : MonoBehaviour
 
     public void Start()
     {
-        init();
         Observer.Forward += Generate; 
     }
 
     private void init()
     {
-
-        // init first start game
+        
         for (int i = 0; i < 7; i++)
         {
+            
             GameObject terrain = Instantiate(terrainPrefabs[1], genePos, Quaternion.identity);
             terrains.Add(terrain);
             genePos += new Vector3(1, 0, 0);
@@ -49,6 +48,15 @@ public class TerrainGenerator : MonoBehaviour
             Destroy(terrains[0].gameObject);
             terrains.RemoveAt(0);
         }
+    }
+
+    public void Clear()
+    {
+        genePos = new Vector3(-6, 0, 0);
+        foreach (GameObject i in terrains)
+            Destroy(i); 
+        terrains.Clear();
+        init();
     }
 
     private void OnDestroy()
