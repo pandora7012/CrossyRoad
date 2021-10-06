@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f8ca068c10b57c4197733ff2085adae, type: 3}
+  m_Name: StoreData
+  m_EditorClassIdentifier: 
+  assets:
+  - ID: 0
+    nameTag: 'Cardi B '
+    Describe: rapper from usa. usually don't cook or clean
+    texture: {fileID: 21300000, guid: 2957f9ac247b38b4c8030e41f96fbfe5, type: 3}
+    scoreNeed: 0
+    hasComplete: 1
+  - ID: 1
+    nameTag: PS Cat
+    Describe: 'a weirdo cat '
+    texture: {fileID: 21300000, guid: acbb240169caa704db28b9a7dc832745, type: 3}
+    scoreNeed: 0
+    hasComplete: 1
+  - ID: 2
+    nameTag: PRO Member
+    Describe: ... crazy thing
+    texture: {fileID: 21300000, guid: ecc786010fff8eb4e93ba7c75d09b3d5, type: 3}
+    scoreNeed: 30
+    hasComplete: 0
+  - ID: 3
+    nameTag: PRO Member
+    Describe: 
+    texture: {fileID: 21300000, guid: 11c3d9855657231479f5f195226f8cf0, type: 3}
+    scoreNeed: 30
+    hasComplete: 0
+  - ID: 4
+    nameTag: PRO Head Of Event
+    Describe: act well, dance well, learn well, still finding lover
+    texture: {fileID: 21300000, guid: b6c4bf8058db90445a54179ffea15250, type: 3}
+    scoreNeed: 60
+    hasComplete: 0
+  - ID: 5
+    nameTag: PRO Head of FA
+    Describe: FA means Foreign Affairs, not Forever alone
+    texture: {fileID: 21300000, guid: 9cf7558443e77cd4b9e793ceb3e8900f, type: 3}
+    scoreNeed: 60
+    hasComplete: 0
+  - ID: 6
+    nameTag: PRO Vive Chairman
+    Describe: can't describe
+    texture: {fileID: 21300000, guid: 03f704073dbcc7e4a809855da052f349, type: 3}
+    scoreNeed: 100
+    hasComplete: 0

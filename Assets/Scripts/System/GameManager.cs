@@ -24,6 +24,7 @@ public class GameManager : Singleton<GameManager>
     {
         GameOver = false;
         InitGame();
+        state = State.MainMenu; 
     }
 
     public void RemoveMap()
@@ -45,6 +46,8 @@ public class GameManager : Singleton<GameManager>
 
     public void InitGame()
     {
+        player.gameObject.SetActive(true);
+        state = State.MainMenu;
         map.Clear();
         terrain.Clear();
         cam.Clear();

@@ -38,7 +38,7 @@ public class Car : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             GameManager.Instance.setGameOver(true);
-            Debug.Log("Car");
+            collision.gameObject.SetActive(false);
         }
             
     }
