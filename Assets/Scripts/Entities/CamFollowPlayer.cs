@@ -9,6 +9,7 @@ public class CamFollowPlayer : MonoBehaviour
     private Vector3 targetPos = new Vector3(-1, 3.5f, 4);
 
     // Update is called once per frame
+    [System.Obsolete]
     void Update()
     {
         if (GameManager.Instance.state != GameManager.State.OnPlay)
@@ -17,7 +18,7 @@ public class CamFollowPlayer : MonoBehaviour
         
     }
 
-    
+    [System.Obsolete]
     private void FollowPlayer()
     {
         if (!GameManager.Instance.GameOver)
@@ -34,6 +35,7 @@ public class CamFollowPlayer : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, targetPos, smoothness);
     }
 
+    [System.Obsolete]
     public void checkGameOver()
     {
         if (targetPos.x - 3.5 > player.transform.position.x)

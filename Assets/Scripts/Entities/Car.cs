@@ -33,6 +33,7 @@ public class Car : MonoBehaviour
         rb.MovePosition(transform.position + speed * velo * Time.deltaTime);
     }
 
+    [System.Obsolete]
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player"))

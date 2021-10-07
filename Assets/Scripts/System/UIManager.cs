@@ -14,10 +14,13 @@ public class UIManager : Singleton<UIManager>
     public RectTransform popup;
     public RectTransform OkButton;
     public Text popupText;
+    public NewItem newItem;
+    private int oldScore;
 
 
     [Header("Loading")]
     public Image loadingGround;
+    public Image Logo; 
 
     [Header("Store")]
     public RectTransform store;
@@ -30,10 +33,14 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Data")]
     public StoreData data;
+    public Camera cam;
+
     void Start()
     {
         ResetGame();
     }
+
+    
 
     #region OnPlay
     public void UpdateUI()
@@ -44,15 +51,30 @@ public class UIManager : Singleton<UIManager>
 
     public void GameOver()
     {
-        bool temp = false; 
+        PlayerPrefs.SetInt("Top", Mathf.Max(PlayerPrefs.GetInt("Top"), score));
+        bool temp = false;
+        bool checknew = false;
+
         for (int i = 0; i < data.assets.Count; i++)
         {
+            if (oldScore < data.assets[i].scoreNeed && PlayerPrefs.GetInt("Top") >= data.assets[i].scoreNeed)
+            {
+                checknew = true;
+            }
             if ( data.assets[i].scoreNeed > PlayerPrefs.GetInt("Top") )
             {
                 popupText.text = "Need " + (data.assets[i].scoreNeed - PlayerPrefs.GetInt("Top") ).ToString() + " more to unlock " + data.assets[i].nameTag;
-                temp = true; 
+                temp = true;
+                break;
             }
         }
+        if (checknew)
+        {
+            newItem.point = oldScore;
+            newItem.gameObject.SetActive(true);
+        }
+
+
         if (!temp)
         {
             popupText.text = "Good job"; 
@@ -62,20 +84,20 @@ public class UIManager : Singleton<UIManager>
         OkButton.gameObject.SetActive(true);
         popup.gameObject.SetActive(true);
         
-        Top.rectTransform.DOLocalMoveX(5, 1f).OnComplete(() =>
+        Top.rectTransform.DOLocalMoveX(5, 1f).From(-1960).OnComplete(() =>
         {
             popup.DOLocalMoveX(0, 0.5f).OnComplete(() =>
             {
                 OkButton.DOLocalMoveX(0, 0.5f);
             });
         });
+        UpdateUI();
     }
 
     public void OKButton()
     {
         ResetGame();
         LoadingView();
-        GameManager.Instance.InitGame();
         GameManager.Instance.state = GameManager.State.MainMenu;
         
     }
@@ -85,6 +107,8 @@ public class UIManager : Singleton<UIManager>
 
     public void ResetGame()
     {
+        newItem.gameObject.SetActive(false);
+        oldScore = PlayerPrefs.GetInt("Top");
         scoreText.text = "0";
         Top.text = "TOP : ";
         score = 0;
@@ -97,12 +121,17 @@ public class UIManager : Singleton<UIManager>
 
     public void LoadingView()
     {
+        Sequence sq = DOTween.Sequence();
         loadingGround.gameObject.SetActive(true);
-        loadingGround.DOColor(Color.clear, 3f).OnComplete(() =>
-        { 
-            loadingGround.gameObject.SetActive(false);
+        sq.Append(loadingGround.DOColor(new Color(1, 1, 1, 1), 0.5f).OnComplete(()=> {
+            GameManager.Instance.InitGame();
+        }));
+        sq.Append( Logo.transform.DOLocalMove(new Vector3(0, 100, 0), 1f).From(new Vector3(-1400,400)));
+        sq.Append(loadingGround.DOColor(new Color(1, 1, 1, 0), 1f).OnComplete(() =>
+        {
             ChangeToMain();
-        });
+            loadingGround.gameObject.SetActive(false);
+        })); 
     }
 
 
@@ -124,8 +153,10 @@ public class UIManager : Singleton<UIManager>
     public void StartBT()
     {
         GameManager.Instance.state = GameManager.State.OnPlay;
+        oldScore = PlayerPrefs.GetInt("Top");
         startGame.gameObject.SetActive(false);
         storeBt.transform.DOLocalMoveX(-1100, 0.5f);
+        Logo.transform.DOLocalMove(new Vector3(1400, -200, 0), 1f);
     }
 
 

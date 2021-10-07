@@ -8,7 +8,11 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] public List<bool[]> map = new List<bool[]>();
     [SerializeField] private Player player;
     [SerializeField] private TerrainGenerator terrain;
-    [SerializeField] private CamFollowPlayer cam; 
+    [SerializeField] private CamFollowPlayer cam;
+
+    [Header("VFX")]
+    [SerializeField] private ParticleSystem deadPar;
+    [SerializeField] private ParticleSystem waterPar; 
 
     public enum State{
         MainMenu, 
@@ -23,6 +27,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         GameOver = false;
+        UIManager.Instance.LoadingView();
         InitGame();
         state = State.MainMenu; 
     }
@@ -32,20 +37,42 @@ public class GameManager : Singleton<GameManager>
         map.RemoveAt(0);
     }
 
+    [System.Obsolete]
     public void setGameOver(bool value)
     {
         GameOver = value;
         GameoverDo();
+        
     }
 
+    [System.Obsolete]
     public void GameoverDo()
     {
-        PlayerPrefs.SetInt("Top", Mathf.Max(PlayerPrefs.GetInt("Top"), UIManager.Instance.score));
+        
+        GFX();
+        player.transform.parent = null;
         UIManager.Instance.GameOver();
+        
     }
 
+
+    public void GFX()
+    {
+        deadPar.transform.position = player.transform.position + new Vector3(0, 1, 0);
+        deadPar.gameObject.SetActive(true);
+        waterPar.transform.position = player.transform.position;
+        waterPar.gameObject.SetActive(true);
+        if (player.transform.position.y < 00.6f)
+        {
+            waterPar.Play();
+        }
+        else
+            deadPar.Play();
+    }
     public void InitGame()
     {
+        deadPar.gameObject.SetActive(false);
+        waterPar.gameObject.SetActive(false);
         player.gameObject.SetActive(true);
         state = State.MainMenu;
         map.Clear();

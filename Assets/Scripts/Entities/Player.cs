@@ -16,10 +16,14 @@ public class Player : MonoBehaviour
 
     [SerializeField]private Rigidbody rb;
 
-    public bool playing; 
+    public bool playing;
+
+    [SerializeField] private Renderer rd;
+    [SerializeField] private Texture[] tex;
 
     public void Clear()
     {
+        UpDateMaterial();
         touchDown = Vector2.zero;
         touchUp = Vector2.zero;
         drs = Vector2.zero;
@@ -29,6 +33,12 @@ public class Player : MonoBehaviour
         playing = false;
     }
 
+    private void Start()
+    {
+        Observer.ElementClick += UpDateMaterial;
+    }
+
+    [System.Obsolete]
     void Update()
     {
         if (!GameManager.Instance.GameOver)
@@ -204,14 +214,14 @@ public class Player : MonoBehaviour
         });
     }
 
-    
-
+    [System.Obsolete]
     private void checkGameOver()
     {
         if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0.6)
         {
             GameManager.Instance.setGameOver(true);
             this.gameObject.SetActive(false);
+            
         }
             
     }
@@ -222,5 +232,16 @@ public class Player : MonoBehaviour
         temp.x = Mathf.Round(temp.x);
         temp.y = 0.8f;
         return temp; 
+    }
+
+    private void UpDateMaterial()
+    {
+        int p = PlayerPrefs.GetInt("Skin");
+        rd.material.mainTexture = tex[p];
+    }
+
+    private void OnDestroy()
+    {
+        Observer.ElementClick -= UpDateMaterial;
     }
 }
