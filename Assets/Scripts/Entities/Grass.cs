@@ -20,8 +20,6 @@ public class Grass : MonoBehaviour
         obticle = Instantiate(pref[Random.Range(0, 3)], new Vector3(thisPos.x, 0.5f, 9), Quaternion.identity);
         obticle.transform.parent = this.transform;
 
-
-
         // init things on playground
         for (int i = 0; i <= 8; i++)
         {
@@ -35,6 +33,26 @@ public class Grass : MonoBehaviour
             obticle = Instantiate(pref[Random.Range(0, 3)], new Vector3(thisPos.x, 0.5f, i), Quaternion.identity);
             obticle.transform.parent = this.transform;
         }
+        // add texture out bound 
+        for (int i = -6; i <= -2; i++)
+        {
+            float rd = Random.Range(0, 100);
+            if (rd > 50)
+                continue;
+            obticle = Instantiate(pref[Random.Range(0, 3)], new Vector3(thisPos.x, 0.5f, i), Quaternion.identity);
+            obticle.transform.parent = this.transform;
+        }
+        for (int i = 10; i <= 15; i++)
+        {
+            float rd = Random.Range(0, 100);
+            if (rd > 50)
+                continue;
+            obticle = Instantiate(pref[Random.Range(0, 3)], new Vector3(thisPos.x, 0.5f, i), Quaternion.identity);
+            obticle.transform.parent = this.transform;
+        }
+
         GameManager.Instance.map.Add(vs);
     }
+
+
 }

@@ -27,7 +27,7 @@ public class TerrainGenerator : MonoBehaviour
             genePos += new Vector3(1, 0, 0);
             terrain.gameObject.transform.SetParent(this.transform);
         }
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 11; i++)
             Generate();
     }
 

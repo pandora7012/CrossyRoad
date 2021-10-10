@@ -99,6 +99,7 @@ public class UIManager : Singleton<UIManager>
         ResetGame();
         LoadingView();
         GameManager.Instance.state = GameManager.State.MainMenu;
+        SoundManager.Instance.Play("ButtonClick");
         
     }
     #endregion
@@ -141,7 +142,7 @@ public class UIManager : Singleton<UIManager>
     #region Main 
     public void StoreButton()
     {
-
+        SoundManager.Instance.Play("ButtonClick");
         storeBt.transform.DOLocalMoveX(-1100, 0.5f).OnComplete(() =>
         {
             main.gameObject.SetActive(false);
@@ -152,6 +153,7 @@ public class UIManager : Singleton<UIManager>
 
     public void StartBT()
     {
+        SoundManager.Instance.Play("ButtonClick");
         GameManager.Instance.state = GameManager.State.OnPlay;
         oldScore = PlayerPrefs.GetInt("Top");
         startGame.gameObject.SetActive(false);

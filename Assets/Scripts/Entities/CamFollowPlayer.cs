@@ -21,6 +21,14 @@ public class CamFollowPlayer : MonoBehaviour
     [System.Obsolete]
     private void FollowPlayer()
     {
+
+        if (player.transform.position.x > transform.position.x + 1)
+        {
+            targetPos.x = player.transform.position.x;
+            smoothness = 0.01f;
+        }
+        else
+            smoothness = 0.005f;
         if (!GameManager.Instance.GameOver)
         {
             targetPos.x += Time.deltaTime * 0.5f;
@@ -39,7 +47,14 @@ public class CamFollowPlayer : MonoBehaviour
     public void checkGameOver()
     {
         if (targetPos.x - 3.5 > player.transform.position.x)
+        {
             GameManager.Instance.setGameOver(true);
+            player.SetActive(false);
+            if (PlayerPrefs.GetInt("Skin") == 0)
+                SoundManager.Instance.Play("WTF");
+            else
+                SoundManager.Instance.Play("CarDead");
+        }
     }
 
     public void Clear()

@@ -74,7 +74,11 @@ public class Player : MonoBehaviour
 
         // get pos touch up and handle
         if (Input.GetMouseButtonUp(0))
-        { 
+        {
+            if (PlayerPrefs.GetInt("Skin") == 0)
+                SoundManager.Instance.Play("cardiJump");
+            else
+                SoundManager.Instance.Play("Jump");
             isJumping = true;
             transform.parent = null; 
             touchUp = Input.mousePosition;
@@ -219,6 +223,10 @@ public class Player : MonoBehaviour
     {
         if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0.6)
         {
+            if (PlayerPrefs.GetInt("Skin") == 0)
+                SoundManager.Instance.Play("WTF");
+            else
+                SoundManager.Instance.Play("WaterDead");
             GameManager.Instance.setGameOver(true);
             this.gameObject.SetActive(false);
             

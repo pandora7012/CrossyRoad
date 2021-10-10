@@ -11310,8 +11310,8 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
-  - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194226}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -11377,13 +11377,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.21828581, y: 0.51899153, z: -0.13906339, w: 0.81465364}
+  m_LocalRotation: {x: 0.31347594, y: 0.5299155, z: -0.21949817, w: 0.7567979}
   m_LocalPosition: {x: -1, y: 3.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 30, y: 65, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 70, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11672,6 +11672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1124992533}
+  - component: {fileID: 1124992534}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -11693,6 +11694,61 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1124992534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124992532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e351cca3305da947853d03aea3c97ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: ButtonClick
+    audioClip: {fileID: 8300000, guid: dcf2b3e89d403704c8b8c47f22c1e0f3, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    audioSource: {fileID: 0}
+  - name: OnWoodLand
+    audioClip: {fileID: 8300000, guid: f21ef3c86d0e3784abfa1fecf784ed16, type: 3}
+    loop: 0
+    volume: 0.7
+    pitch: 1
+    audioSource: {fileID: 0}
+  - name: WaterDead
+    audioClip: {fileID: 8300000, guid: 4aa4ffbe114bf0942becd7ea49cee035, type: 3}
+    loop: 0
+    volume: 0.712
+    pitch: 1
+    audioSource: {fileID: 0}
+  - name: WTF
+    audioClip: {fileID: 8300000, guid: d8897f8548233564a94a0f652d0a1d91, type: 3}
+    loop: 0
+    volume: 0.535
+    pitch: 1
+    audioSource: {fileID: 0}
+  - name: Jump
+    audioClip: {fileID: 8300000, guid: 9e603cc314550844b8b39a800aadc11f, type: 3}
+    loop: 0
+    volume: 0.452
+    pitch: 1
+    audioSource: {fileID: 0}
+  - name: CarDead
+    audioClip: {fileID: 8300000, guid: f115afe986ecd8a48860009015696aaf, type: 3}
+    loop: 0
+    volume: 0.236
+    pitch: 1
+    audioSource: {fileID: 0}
+  - name: cardiJump
+    audioClip: {fileID: 8300000, guid: 891f5a6fb97f9c74fb6866aa7427e2b7, type: 3}
+    loop: 0
+    volume: 0.481
+    pitch: 1
+    audioSource: {fileID: 0}
 --- !u!1 &1133464002
 GameObject:
   m_ObjectHideFlags: 0
@@ -12231,7 +12287,7 @@ MonoBehaviour:
   - {fileID: 208885708565464802, guid: f0e39823faa9dae41a8c3bca57188eb8, type: 3}
   terrains: []
   player: {fileID: 2138682754}
-  maxTerrain: 23
+  maxTerrain: 18
 --- !u!4 &1492251070
 Transform:
   m_ObjectHideFlags: 0
@@ -12280,7 +12336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 264.4768, y: -134.96252}
+  m_AnchoredPosition: {x: 1720, y: -134.96252}
   m_SizeDelta: {x: 246.9536, y: 103.925}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1539727747
@@ -12991,6 +13047,7 @@ GameObject:
   - component: {fileID: 2138682750}
   - component: {fileID: 2138682754}
   - component: {fileID: 2138682755}
+  - component: {fileID: 2138682756}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -13115,6 +13172,14 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!81 &2138682756
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138682749}
+  m_Enabled: 0
 --- !u!1 &2142233087
 GameObject:
   m_ObjectHideFlags: 0

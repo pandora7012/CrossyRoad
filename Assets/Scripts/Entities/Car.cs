@@ -39,6 +39,10 @@ public class Car : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             GameManager.Instance.setGameOver(true);
+            if (PlayerPrefs.GetInt("Skin") == 0)
+                SoundManager.Instance.Play("WTF");
+            else 
+                SoundManager.Instance.Play("CarDead");
             collision.gameObject.SetActive(false);
         }
             

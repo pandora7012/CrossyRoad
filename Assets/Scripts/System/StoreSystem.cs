@@ -46,6 +46,7 @@ public class StoreSystem : MonoBehaviour
 
     public void OKButton()
     {
+        SoundManager.Instance.Play("ButtonClick");
         if (PlayerPrefs.GetInt("Skin") == -1)
             return;
         this.transform.DOLocalMoveX(3000, 0.5f).OnComplete(() =>

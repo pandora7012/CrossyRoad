@@ -32,6 +32,7 @@ public class Log : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
+            SoundManager.Instance.Play("OnWoodLand");
             collision.transform.parent = this.transform;
         }
     }

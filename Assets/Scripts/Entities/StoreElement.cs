@@ -20,6 +20,7 @@ public class StoreElement : MonoBehaviour
 
     public void OnClick()
     {
+        SoundManager.Instance.Play("ButtonClick");
         PlayerPrefs.SetInt("Skin", needScore <= PlayerPrefs.GetInt("Top") ? ID : -1);
         Observer.ElementClick?.Invoke();
         uiUpdate();
