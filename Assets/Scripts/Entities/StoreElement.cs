@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StoreElement : MonoBehaviour
 {
     public int ID;
+    public Image background;
     public Image ava;
     public Sprite sprite;
     public Sprite enable;
@@ -21,6 +22,7 @@ public class StoreElement : MonoBehaviour
     public void OnClick()
     {
         SoundManager.Instance.Play("ButtonClick");
+        
         PlayerPrefs.SetInt("Skin", needScore <= PlayerPrefs.GetInt("Top") ? ID : -1);
         Observer.ElementClick?.Invoke();
         uiUpdate();
@@ -28,7 +30,7 @@ public class StoreElement : MonoBehaviour
 
     public void uiUpdate()
     {
-        ava.color = this.ID == PlayerPrefs.GetInt("Skin") ? Color.cyan : Color.white;
+        background.color = this.ID == PlayerPrefs.GetInt("Skin") ? Color.yellow : Color.white;
     }
 
     private void OnDestroy()

@@ -14,8 +14,6 @@ public class ShopElement
 {
     public int ID;
     public string nameTag;
-    public string Describe;
-    public Sprite texture;
+    public Sprite icon;
     public int scoreNeed; 
-    public bool hasComplete; 
 }

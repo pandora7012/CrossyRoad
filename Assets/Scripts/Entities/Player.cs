@@ -16,10 +16,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]private Rigidbody rb;
 
+    [SerializeField] private List<GameObject> playerModel;
     public bool playing;
 
-    [SerializeField] private Renderer rd;
-    [SerializeField] private Texture[] tex;
 
     public void Clear()
     {
@@ -28,8 +27,7 @@ public class Player : MonoBehaviour
         touchUp = Vector2.zero;
         drs = Vector2.zero;
         angle = 0.78f; isJumping = false;
-        rb.position = (new Vector3(-1, 0.8f, 4));
-        transform.position = new Vector3(-1, 0.8f, 4);
+        rb.position = (new Vector3(-1, 1.055f, 4));
         playing = false;
     }
 
@@ -75,10 +73,7 @@ public class Player : MonoBehaviour
         // get pos touch up and handle
         if (Input.GetMouseButtonUp(0))
         {
-            if (PlayerPrefs.GetInt("Skin") == 0)
-                SoundManager.Instance.Play("cardiJump");
-            else
-                SoundManager.Instance.Play("Jump");
+            SoundManager.Instance.Play("Jump");
             isJumping = true;
             transform.parent = null; 
             touchUp = Input.mousePosition;
@@ -114,7 +109,7 @@ public class Player : MonoBehaviour
     {
         bool[] vs = GameManager.Instance.map[pos + 1];
         Vector3 temp = RoundVector(this.transform.position);
-
+        transform.localRotation = Quaternion.Euler(0, 90, 0);
         // check if front have obticle 
         if ( vs[ (int) temp.z] )
         {
@@ -144,6 +139,8 @@ public class Player : MonoBehaviour
 
     private void goLeft()
     {
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
+
         bool[] vs = GameManager.Instance.map[pos];
         Vector3 temp = RoundVector(this.transform.position);
 
@@ -163,13 +160,14 @@ public class Player : MonoBehaviour
         rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
             isJumping = false;
-            transform.rotation = Quaternion.identity;
         });
         
     }
 
     private void goRight()
     {
+        transform.localRotation = Quaternion.Euler(0, 180, 0);
+
         bool[] vs = GameManager.Instance.map[pos];
         Vector3 temp = RoundVector(this.transform.position);
 
@@ -178,6 +176,7 @@ public class Player : MonoBehaviour
         {
             rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
+               
                 isJumping = false;
             });
             return;
@@ -187,14 +186,16 @@ public class Player : MonoBehaviour
         temp -= new Vector3(0, 0, 1);
         rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
+            
             isJumping = false;
-            transform.rotation = Quaternion.identity;
         }); 
     }
 
 
     private void goBack()
     {
+        transform.localRotation = Quaternion.Euler(0, -90, 0);
+
         bool[] vs = GameManager.Instance.map[pos-1];
         Vector3 temp = RoundVector(this.transform.position);
 
@@ -203,6 +204,7 @@ public class Player : MonoBehaviour
         {
             rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
+                
                 isJumping = false;
             });
             return;
@@ -212,8 +214,8 @@ public class Player : MonoBehaviour
         // jump 
         rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
+            
             isJumping = false;
-            transform.rotation = Quaternion.identity;
             pos = Mathf.Min(pos - 1, 5);
         });
     }
@@ -221,12 +223,10 @@ public class Player : MonoBehaviour
     [System.Obsolete]
     private void checkGameOver()
     {
-        if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0.6)
+        if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0.75)
         {
-            if (PlayerPrefs.GetInt("Skin") == 0)
-                SoundManager.Instance.Play("WTF");
-            else
-                SoundManager.Instance.Play("WaterDead");
+            
+            SoundManager.Instance.Play("WaterDead");
             GameManager.Instance.setGameOver(true);
             this.gameObject.SetActive(false);
             
@@ -238,15 +238,27 @@ public class Player : MonoBehaviour
     {
         temp.z = Mathf.Round(temp.z);
         temp.x = Mathf.Round(temp.x);
-        temp.y = 0.8f;
+        temp.y = 1.055f;
         return temp; 
     }
 
     private void UpDateMaterial()
     {
         int p = PlayerPrefs.GetInt("Skin");
-        rd.material.mainTexture = tex[p];
-    }
+        if (p == -1)
+            return;
+        for (int i = 0; i < playerModel.Count; i++)
+        {
+            if (p == i)
+            {
+                playerModel[i].SetActive(true);
+            }
+               
+            else
+                playerModel[i].SetActive(false);
+        }
+
+    }   
 
     private void OnDestroy()
     {

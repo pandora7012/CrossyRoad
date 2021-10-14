@@ -10,7 +10,6 @@ public class StoreSystem : MonoBehaviour
     public StoreElement storeElement;
     public RectTransform content;
 
-    public Text describe;
     public Text nameTag;
 
     public Image okbt;
@@ -23,8 +22,8 @@ public class StoreSystem : MonoBehaviour
         {
             StoreElement se = Instantiate(storeElement, content);
             se.ID = data.assets[i].ID;
-            se.enable = data.assets[i].texture;
             se.needScore = data.assets[i].scoreNeed;
+            se.enable = data.assets[i].icon; 
         }
         
         Observer.ElementClick += UIUpdate;
@@ -39,7 +38,6 @@ public class StoreSystem : MonoBehaviour
     private void UIUpdate()
     {
         int p = PlayerPrefs.GetInt("Skin");
-        describe.text = p == -1 ? "Unknown" : data.assets[p].Describe;
         nameTag.text = p == -1 ? "Unknown" : data.assets[p].nameTag;
         okbt.color = p == -1 ? Color.gray : Color.yellow;
     }

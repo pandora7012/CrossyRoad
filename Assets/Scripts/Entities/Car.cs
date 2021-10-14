@@ -11,7 +11,7 @@ public class Car : MonoBehaviour
     public Vector3 pos; 
     public int delta;
 
-    [SerializeField] private Rigidbody rb; 
+    [SerializeField] private Rigidbody rb;
 
     private void Start()
     {
@@ -39,11 +39,9 @@ public class Car : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             GameManager.Instance.setGameOver(true);
-            if (PlayerPrefs.GetInt("Skin") == 0)
-                SoundManager.Instance.Play("WTF");
-            else 
-                SoundManager.Instance.Play("CarDead");
+            SoundManager.Instance.Play("CarDead");
             collision.gameObject.SetActive(false);
+           
         }
             
     }

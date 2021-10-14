@@ -12,8 +12,8 @@ public class GameManager : Singleton<GameManager>
 
     [Header("VFX")]
     [SerializeField] private ParticleSystem deadPar;
-    [SerializeField] private ParticleSystem waterPar; 
-
+    [SerializeField] private ParticleSystem waterPar;
+    [SerializeField] private AudioListener listener;
     public enum State{
         MainMenu, 
         Shop,
@@ -52,7 +52,7 @@ public class GameManager : Singleton<GameManager>
         GFX();
         player.transform.parent = null;
         UIManager.Instance.GameOver();
-        
+        listener.enabled = true;
     }
 
 
@@ -62,7 +62,7 @@ public class GameManager : Singleton<GameManager>
         deadPar.gameObject.SetActive(true);
         waterPar.transform.position = player.transform.position;
         waterPar.gameObject.SetActive(true);
-        if (player.transform.position.y < 00.6f)
+        if (player.transform.position.y < 00.75f)
         {
             waterPar.Play();
         }
@@ -80,6 +80,7 @@ public class GameManager : Singleton<GameManager>
         cam.Clear();
         player.Clear();
         GameOver = false;
+        listener.enabled = false;
     }
 
 
