@@ -81,14 +81,15 @@ public class UIManager : Singleton<UIManager>
         }
         scoreText.rectTransform.DOScale(new Vector3(2, 2, 1), 0.5f);
         Top.gameObject.SetActive(true);
-        OkButton.gameObject.SetActive(true);
-        popup.gameObject.SetActive(true);
+        
         
         Top.rectTransform.DOLocalMoveX(5, 1f).From(-1960).OnComplete(() =>
         {
-            popup.DOLocalMoveX(0, 0.5f).OnComplete(() =>
+            popup.gameObject.SetActive(true);
+            popup.DOLocalMoveX(0, 0.5f).From(-1960).OnComplete(() =>
             {
-                OkButton.DOLocalMoveX(0, 0.5f);
+                OkButton.gameObject.SetActive(true);
+                OkButton.DOLocalMoveX(0, 0.5f).From(-500);
             });
         });
         UpdateUI();

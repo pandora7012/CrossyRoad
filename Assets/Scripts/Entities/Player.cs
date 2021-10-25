@@ -223,9 +223,8 @@ public class Player : MonoBehaviour
     [System.Obsolete]
     private void checkGameOver()
     {
-        if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0.75)
+        if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0.75 && !GameManager.Instance.GameOver)
         {
-            
             SoundManager.Instance.Play("WaterDead");
             GameManager.Instance.setGameOver(true);
             this.gameObject.SetActive(false);
