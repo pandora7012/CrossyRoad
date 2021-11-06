@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -20,7 +18,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Loading")]
     public Image loadingGround;
-    public Image Logo; 
+    public Image Logo;
 
     [Header("Store")]
     public RectTransform store;
@@ -40,7 +38,7 @@ public class UIManager : Singleton<UIManager>
         ResetGame();
     }
 
-    
+
 
     #region OnPlay
     public void UpdateUI()
@@ -61,35 +59,36 @@ public class UIManager : Singleton<UIManager>
             {
                 checknew = true;
             }
-            if ( data.assets[i].scoreNeed > PlayerPrefs.GetInt("Top") )
+            if (data.assets[i].scoreNeed > PlayerPrefs.GetInt("Top"))
             {
-                popupText.text = "Need " + (data.assets[i].scoreNeed - PlayerPrefs.GetInt("Top") ).ToString() + " more to unlock " + data.assets[i].nameTag;
+                popupText.text = "Need " + (data.assets[i].scoreNeed - PlayerPrefs.GetInt("Top")).ToString() + " more to unlock " + data.assets[i].nameTag;
                 temp = true;
                 break;
             }
-        }
-        if (checknew)
-        {
-            newItem.point = oldScore;
-            newItem.gameObject.SetActive(true);
         }
 
 
         if (!temp)
         {
-            popupText.text = "Good job"; 
+            popupText.text = "Good job";
         }
         scoreText.rectTransform.DOScale(new Vector3(2, 2, 1), 0.5f);
         Top.gameObject.SetActive(true);
-        
-        
+
+
         Top.rectTransform.DOLocalMoveX(5, 1f).From(-1960).OnComplete(() =>
         {
             popup.gameObject.SetActive(true);
             popup.DOLocalMoveX(0, 0.5f).From(-1960).OnComplete(() =>
             {
+                if (checknew)
+                {
+                    Debug.Log("newItem");
+                    newItem.point = oldScore;
+                    newItem.gameObject.SetActive(true);
+                }
                 OkButton.gameObject.SetActive(true);
-                OkButton.DOLocalMoveX(0, 0.5f).From(-500);
+                OkButton.DOLocalMoveX(0, 0.25f).From(-1000);
             });
         });
         UpdateUI();
@@ -101,7 +100,10 @@ public class UIManager : Singleton<UIManager>
         LoadingView();
         GameManager.Instance.state = GameManager.State.MainMenu;
         SoundManager.Instance.Play("ButtonClick");
-        
+
+
+        //AdsObj.Instance.ShowIntertitial();
+
     }
     #endregion
 
@@ -125,15 +127,15 @@ public class UIManager : Singleton<UIManager>
     {
         Sequence sq = DOTween.Sequence();
         loadingGround.gameObject.SetActive(true);
-        sq.Append(loadingGround.DOColor(new Color(1, 1, 1, 1), 0.5f).OnComplete(()=> {
+        sq.Append(loadingGround.DOColor(new Color(1, 1, 1, 1), 0.5f).OnComplete(() => {
             GameManager.Instance.InitGame();
         }));
-        sq.Append( Logo.transform.DOLocalMove(new Vector3(0, 100, 0), 1f).From(new Vector3(-1400,400)));
+        sq.Append(Logo.transform.DOLocalMove(new Vector3(0, 100, 0), 1f).From(new Vector3(-1400, 400)));
         sq.Append(loadingGround.DOColor(new Color(1, 1, 1, 0), 1f).OnComplete(() =>
         {
             ChangeToMain();
             loadingGround.gameObject.SetActive(false);
-        })); 
+        }));
     }
 
 
@@ -149,7 +151,7 @@ public class UIManager : Singleton<UIManager>
             main.gameObject.SetActive(false);
             store.gameObject.SetActive(true);
         });
-        
+
     }
 
     public void StartBT()
@@ -160,6 +162,8 @@ public class UIManager : Singleton<UIManager>
         startGame.gameObject.SetActive(false);
         storeBt.transform.DOLocalMoveX(-1100, 0.5f);
         Logo.transform.DOLocalMove(new Vector3(1400, -200, 0), 1f);
+
+
     }
 
 
@@ -170,7 +174,7 @@ public class UIManager : Singleton<UIManager>
             startGame.gameObject.SetActive(true);
         });
     }
-    
+
 
     #endregion
 }

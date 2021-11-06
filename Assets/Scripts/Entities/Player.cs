@@ -12,9 +12,9 @@ public class Player : MonoBehaviour
     private Vector2 drs;
     float angle;
 
-    [SerializeField]private int pos = 5; 
+    [SerializeField] private int pos = 5;
 
-    [SerializeField]private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
 
     [SerializeField] private List<GameObject> playerModel;
     public bool playing;
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         touchUp = Vector2.zero;
         drs = Vector2.zero;
         angle = 0.78f; isJumping = false;
-        rb.position = (new Vector3(-1, 1.055f, 4));
+        rb.position = (new Vector3(-1, 1.06f, 4));
         playing = false;
     }
 
@@ -44,23 +44,23 @@ public class Player : MonoBehaviour
             inputHandle();
             checkGameOver();
         }
-        
+
     }
 
     private void FixedUpdate()
     {
-        
+
     }
 
 
     private void inputHandle()
     {
-        
+
         if (isJumping || EventSystem.current.IsPointerOverGameObject(0) || GameManager.Instance.state != GameManager.State.OnPlay)
             return;
-        
+
         // get pos touchdown 
-        if (Input.GetMouseButtonDown(0) )
+        if (Input.GetMouseButtonDown(0))
         {
             if (!playing)
             {
@@ -68,28 +68,28 @@ public class Player : MonoBehaviour
             }
             touchDown = Input.mousePosition;
         }
-            
+
 
         // get pos touch up and handle
         if (Input.GetMouseButtonUp(0))
         {
             SoundManager.Instance.Play("Jump");
             isJumping = true;
-            transform.parent = null; 
+            transform.parent = null;
             touchUp = Input.mousePosition;
             drs = touchUp - touchDown;
-            angle= Mathf.Atan2(drs.y, drs.x);
+            angle = Mathf.Atan2(drs.y, drs.x);
 
             //check if just touch 
-            if ( drs.x < 100 && drs.x > -100 
+            if (drs.x < 100 && drs.x > -100
                  && drs.y < 100 && drs.y > -100)
             {
                 goForward();
-                return; 
+                return;
             }
 
             // swift handle
-             
+
             if (Mathf.Abs(angle) < 0.75)
                 goRight();
             else if (angle >= 0.75 && angle < 2.25)
@@ -100,9 +100,9 @@ public class Player : MonoBehaviour
                 goLeft();
             else
                 goBack();
-            
+
         }
-        
+
     }
 
     private void goForward()
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
         Vector3 temp = RoundVector(this.transform.position);
         transform.localRotation = Quaternion.Euler(0, 90, 0);
         // check if front have obticle 
-        if ( vs[ (int) temp.z] )
+        if (vs[(int)temp.z])
         {
             rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
             }
             pos = Mathf.Min(pos + 1, 5);
         });
-        
+
     }
 
     private void goLeft()
@@ -145,7 +145,7 @@ public class Player : MonoBehaviour
         Vector3 temp = RoundVector(this.transform.position);
 
         // check if  have obticle 
-        if (temp.z == 8 || vs[(int) temp.z+1])
+        if (temp.z == 8 || vs[(int)temp.z + 1])
         {
             rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
@@ -161,7 +161,7 @@ public class Player : MonoBehaviour
         {
             isJumping = false;
         });
-        
+
     }
 
     private void goRight()
@@ -172,11 +172,11 @@ public class Player : MonoBehaviour
         Vector3 temp = RoundVector(this.transform.position);
 
         // check if have obticle 
-        if (temp.z == 0 || vs [ (int) temp.z -1 ])
+        if (temp.z == 0 || vs[(int)temp.z - 1])
         {
             rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
-               
+
                 isJumping = false;
             });
             return;
@@ -186,9 +186,9 @@ public class Player : MonoBehaviour
         temp -= new Vector3(0, 0, 1);
         rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
-            
+
             isJumping = false;
-        }); 
+        });
     }
 
 
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
     {
         transform.localRotation = Quaternion.Euler(0, -90, 0);
 
-        bool[] vs = GameManager.Instance.map[pos-1];
+        bool[] vs = GameManager.Instance.map[pos - 1];
         Vector3 temp = RoundVector(this.transform.position);
 
         //check obticle 
@@ -204,7 +204,7 @@ public class Player : MonoBehaviour
         {
             rb.DOJump(transform.position, 0.25f, 1, 0.15f).OnComplete(() =>
             {
-                
+
                 isJumping = false;
             });
             return;
@@ -214,7 +214,7 @@ public class Player : MonoBehaviour
         // jump 
         rb.DOJump(temp, 0.5f, 1, 0.2f).OnComplete(() =>
         {
-            
+
             isJumping = false;
             pos = Mathf.Min(pos - 1, 5);
         });
@@ -223,14 +223,16 @@ public class Player : MonoBehaviour
     [System.Obsolete]
     private void checkGameOver()
     {
-        if (!(transform.position.z <= 8.4 && transform.position.z >= -0.4) || transform.position.y < 0.75 && !GameManager.Instance.GameOver)
+        if (transform.position.z > 8.4 || transform.position.z < -0.4 || transform.position.y <= 0.7f)
+
         {
+            if (GameManager.Instance.GameOver)
+                return;
             SoundManager.Instance.Play("WaterDead");
             GameManager.Instance.setGameOver(true);
             this.gameObject.SetActive(false);
-            
         }
-            
+
     }
 
     private Vector3 RoundVector(Vector3 temp)
@@ -238,7 +240,7 @@ public class Player : MonoBehaviour
         temp.z = Mathf.Round(temp.z);
         temp.x = Mathf.Round(temp.x);
         temp.y = 1.055f;
-        return temp; 
+        return temp;
     }
 
     private void UpDateMaterial()
@@ -252,12 +254,11 @@ public class Player : MonoBehaviour
             {
                 playerModel[i].SetActive(true);
             }
-               
             else
                 playerModel[i].SetActive(false);
         }
 
-    }   
+    }
 
     private void OnDestroy()
     {
